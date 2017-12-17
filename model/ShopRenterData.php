@@ -15,8 +15,8 @@ class ShopRenterData extends Model {
     }
 
     public function create($userId) {
+
         $shopRenterData = new ShopRenterData();
-        $userId = $_SESSION["userId"];
         $query = "SELECT * FROM shopRenterData WHERE user_id = $userId";
 //        echo $query;
         $result = $this->db->select($query);
@@ -27,7 +27,6 @@ class ShopRenterData extends Model {
             $shopRenterData->setApiUrl($result[0]["api_url"]);
             $shopRenterData->setFeedUrl($result[0]["feed_url"]);
         }
-
         return $shopRenterData;
 //        print_r($result[0]);
     }

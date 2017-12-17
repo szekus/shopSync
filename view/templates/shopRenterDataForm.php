@@ -19,13 +19,13 @@
             <input type="text" class="form-control" placeholder="" name="apiUrl" required value="<?php echo $shopRenterDataModel->getApiUrl(); ?>">
         </div>
         <div class="form-group">
-            Termék feed url: <a href="<?php echo config\Config::create()->getRoot() . '/products.xml'?>" target="_blank" download="products.xml">
-                <?php echo config\Config::create()->getRoot() . '/products.xml'?>
+            Termék feed url: <a href="<?php echo config\Config::create()->getRoot() . '/products.xml' ?>" target="_blank" download="products.xml">
+                <?php echo config\Config::create()->getRoot() . 'products.xml' ?>
             </a>
         </div>
 
         <button type="submit" class="btn btn-primary">Mentés</button>
-
+        <a href="?action=generateXML" > <button  style="margin-left: 10%;"type="button" class="btn btn-primary">Generate</button></a>
 
 
     </form>

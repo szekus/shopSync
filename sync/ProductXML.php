@@ -34,13 +34,13 @@ class ProductXML {
 
             $this->addCategoriy($categoryObject);
         }
+        $itemNumber = $product->appendChild($this->dom->createElement('itemNumber'));
 
 //        $category = $product->appendChild($this->dom->createElement('category'));
 //        $category->appendChild(
 //                $this->dom->createTextNode($productObject->getCategory()));
 
-
-        $itemNumber = $product->appendChild($this->dom->createElement('itemNumber'));
+        
         $name->appendChild(
                 $this->dom->createTextNode($productObject->getName()));
         $shortDescription->appendChild(

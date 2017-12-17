@@ -3,13 +3,15 @@
 namespace sync;
 
 //require_once dirname(__FILE__) . '/../lib/shopRenterApi/classes/apicall.php';
+use model\ShopRenterData;
+use Exception;
 
 class ProductInfo {
 
     const USERNAME = 'test';
     const API_KEY = '2dcd07ef6f3515a5f3a00daba7967fb6';
     const API_URL = "leitzteszt4.api.shoprenter.hu";
-    const LIMIT = 20;
+    const LIMIT = 2;
 
     private $response;
     private $apiCall;
@@ -17,19 +19,40 @@ class ProductInfo {
     private $descriptionUrl;
     private $categoryUrl;
     private $products;
+    private $userId;
 
-    public function __construct() {
-        $this->apiCall = new \lib\shopRenterApi\classes\ApiCall(self::USERNAME, self::API_KEY);
+    public function __construct($userId) {
+        $this->userId = $userId;
+        $userName = self::USERNAME;
+        $apiKey = self::API_KEY;
+        $apiUrl = self::API_URL;
+
+        if ($userId != NULL) {
+            $shopRenterData = new ShopRenterData();
+            $shopRenterData = $shopRenterData->create($userId);
+            $userName = $shopRenterData->getUserName();
+            $apiKey = $shopRenterData->getApiKey();
+            $apiUrl = $shopRenterData->getApiUrl();
+        }
+
+        $this->apiCall = new \lib\shopRenterApi\classes\ApiCall($userName, $apiKey);
         $this->apiCall->setFormat('json');
-        $this->productUrl = self::API_URL . '/products/';
-        $this->descriptionUrl = self::API_URL . '/productDescriptions/';
-        $this->categoryUrl = self::API_URL . '/productCategoryRelations/';
+        $this->productUrl = $apiUrl . '/products/';
+        $this->descriptionUrl = $apiUrl . '/productDescriptions/';
+        $this->categoryUrl = $apiUrl . '/productCategoryRelations/';
     }
 
     function getProductLinks() {
         $url = $this->productUrl . '?page=0&limit=' . self::LIMIT;
         $response = $this->apiCall->execute('GET', $url);
         $array = $response->getParsedResponseBody();
+//        var_dump($array);
+        if (($array) == "") {
+            throw new Exception("Invalid User data.");
+        }
+        if (array_key_exists('error', $array)) {
+            throw new Exception($array["message"]);
+        }
         $items = $array["items"];
         return $items;
     }
@@ -106,7 +129,7 @@ class ProductInfo {
 
     public function setProductsArray() {
         $productIds = $this->getIds();
-        
+
         foreach ($productIds as $productId) {
 //            echo '<pre>';
 //            print_r($this->getItemInfoById($productId));

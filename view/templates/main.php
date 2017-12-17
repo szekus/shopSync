@@ -51,8 +51,15 @@ use lib\database\Database;
                     }
                     break;
                 case "logout":
-//                    var_dump("log_out");
                     $loginController->logout();
+                    break;
+                case "generateXML":
+                    if (isset($_SESSION["userId"])) {
+                        $indexController->generateXML();
+                        $indexController->settings();
+                    } else {
+                        $loginController->login();
+                    }
                     break;
                 default :
                     if (isset($_SESSION["userId"])) {

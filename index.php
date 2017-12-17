@@ -1,10 +1,12 @@
 <?php
 
 session_start();
+
 require_once 'config/config.php';
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
 use controller\AppController;
 
@@ -22,9 +24,10 @@ spl_autoload_register(function ($class_name) {
 });
 
 
-//$appController = AppController::create();
-//$appController->run();
+$appController = AppController::create();
+$appController->run();
 
-$createXML = new sync\CreateXML();
-$createXML->create();
+
+
+
 

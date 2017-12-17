@@ -1,7 +1,7 @@
 <?php
 
 namespace lib\shopRenterApi\classes;
-
+use Exception;
 //require_once 'response.php';
 
 /**
