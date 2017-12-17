@@ -11,7 +11,7 @@ class ProductInfo {
     const USERNAME = 'test';
     const API_KEY = '2dcd07ef6f3515a5f3a00daba7967fb6';
     const API_URL = "leitzteszt4.api.shoprenter.hu";
-    const LIMIT = 2;
+    const LIMIT = 20;
 
     private $response;
     private $apiCall;
