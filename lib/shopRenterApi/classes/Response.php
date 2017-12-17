@@ -1,7 +1,10 @@
 <?php
+
 namespace lib\shopRenterApi\classes;
 
 use lib\shopRenterApi\classes\responseparser\ResponseParserFactory;
+use Exception;
+
 //require_once dirname(__FILE__) . '/responseparser/factory.php';
 
 /**
@@ -10,8 +13,8 @@ use lib\shopRenterApi\classes\responseparser\ResponseParserFactory;
  * @author Kántor András
  * @since 2013.05.23. 12:04
  */
-class Response
-{
+class Response {
+
     /**
      * @var int
      */
@@ -48,13 +51,17 @@ class Response
      * @param $location
      * @param $responseBody
      */
-    public function __construct($statusCode, $contentType, $location, $responseBody)
-    {
+    public function __construct($statusCode, $contentType, $location, $responseBody) {
         $this->statusCode = $statusCode;
         $this->contentType = $contentType;
         $this->contentLength = strlen($responseBody);
         $this->location = $location;
         $this->responseBody = $responseBody;
+        
+        $str = $responseBody;
+        if ((strpos($str, '{"href"') !== 0)) {
+            throw new Exception("Invalid User data");
+        }
 
         if ($this->responseBody) {
             $parserFactory = new ResponseParserFactory();
@@ -69,48 +76,43 @@ class Response
     /**
      * @return int
      */
-    public function getStatusCode()
-    {
+    public function getStatusCode() {
         return $this->statusCode;
     }
 
     /**
      * @return string
      */
-    public function getContentType()
-    {
+    public function getContentType() {
         return $this->contentType;
     }
 
     /**
      * @return int
      */
-    public function getContentLength()
-    {
+    public function getContentLength() {
         return $this->contentLength;
     }
 
     /**
      * @return string
      */
-    public function getLocation()
-    {
+    public function getLocation() {
         return $this->location;
     }
 
     /**
      * @return string
      */
-    public function getResponseBody()
-    {
+    public function getResponseBody() {
         return $this->responseBody;
     }
 
     /**
      * @return array
      */
-    public function getParsedResponseBody()
-    {
+    public function getParsedResponseBody() {
         return $this->parsedResponseBody;
     }
+
 }

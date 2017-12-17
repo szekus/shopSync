@@ -11,7 +11,7 @@ class ProductInfo {
     const USERNAME = 'test';
     const API_KEY = '2dcd07ef6f3515a5f3a00daba7967fb6';
     const API_URL = "leitzteszt4.api.shoprenter.hu";
-    const LIMIT = 2;
+    const LIMIT = 20;
 
     private $response;
     private $apiCall;
@@ -45,6 +45,11 @@ class ProductInfo {
     function getProductLinks() {
         $url = $this->productUrl . '?page=0&limit=' . self::LIMIT;
         $response = $this->apiCall->execute('GET', $url);
+
+        if ($response->getStatusCode() == 0) {
+            throw new Exception("Invalid User data. statusCode: 0");
+        }
+       
         $array = $response->getParsedResponseBody();
 //        var_dump($array);
         if (($array) == "") {
