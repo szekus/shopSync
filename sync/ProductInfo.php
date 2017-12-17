@@ -11,7 +11,7 @@ class ProductInfo {
     const USERNAME = 'test';
     const API_KEY = '2dcd07ef6f3515a5f3a00daba7967fb6';
     const API_URL = "leitzteszt4.api.shoprenter.hu";
-    const LIMIT = 20;
+    const LIMIT = 2;
 
     private $response;
     private $apiCall;
@@ -70,20 +70,28 @@ class ProductInfo {
         return $productIds;
     }
 
+    function getProperty($productId, $propertyName) {
+        $array = $this->getItemInfoById($productId);
+        return $array[$propertyName];
+    }
+
     function getPriceById($productId) {
-        return $this->getItemInfoById($productId)["price"];
+        return $this->getProperty($productId, "price");
     }
 
     function getSkuById($productId) {
-        return $this->getItemInfoById($productId)["sku"];
+        return $this->getProperty($productId, "sku");
+//        return $this->getItemInfoById($productId)["sku"];
     }
 
     function getOrderable($productId) {
-        return $this->getItemInfoById($productId)["orderable"];
+        return $this->getProperty($productId, "orderable");
+//        return $this->getItemInfoById($productId)["orderable"];
     }
 
     function getStatus($productId) {
-        return $this->getItemInfoById($productId)["status"];
+        return $this->getProperty($productId, "status");
+//        return $this->getItemInfoById($productId)["status"];
     }
 
     function getDescriptionByProductId($productId) {
@@ -131,8 +139,6 @@ class ProductInfo {
         $productIds = $this->getIds();
 
         foreach ($productIds as $productId) {
-//            echo '<pre>';
-//            print_r($this->getItemInfoById($productId));
             if ($this->getStatus($productId) == 1) {
                 $description = $this->getDescriptionByProductId($productId);
                 $categories = $this->getCategoriesByCategoryRelations($productId);
@@ -154,7 +160,6 @@ class ProductInfo {
                         itemNumber($sku)->
                         categoryArray($categories)->
                         build();
-//            var_dump($product);
                 $this->products[] = $product;
             }
         }
